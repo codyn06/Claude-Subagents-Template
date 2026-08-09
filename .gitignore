@@ -1,0 +1,236 @@
+# =============================================================================
+# Secrets and local environment — NEVER commit these
+# =============================================================================
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+credentials.json
+secrets.json
+service-account*.json
+.netrc
+.npmrc.local
+
+# =============================================================================
+# Claude Code — local/machine state (keep agents, skills, settings.json tracked)
+# =============================================================================
+.claude/settings.local.json
+.claude/*.local.json
+.claude/.credentials.json
+.claude/shell-snapshots/
+.claude/statsig/
+.claude/todos/
+.claude/projects/
+.claude/history.jsonl
+.claude/ide/
+.claude/logs/
+.claude-cache/
+
+# =============================================================================
+# graphify — generated knowledge graph (rebuild with `/graphify .`)
+# =============================================================================
+graphify-out/
+
+# =============================================================================
+# Node / JavaScript / TypeScript
+# =============================================================================
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/versions
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.turbo/
+.rollup.cache/
+.parcel-cache/
+.swc/
+
+# Framework build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+.astro/
+.vercel/
+.netlify/
+.output/
+.vinxi/
+storybook-static/
+
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+.eggs/
+*.egg-info/
+*.egg
+.installed.cfg
+develop-eggs/
+sdist/
+wheels/
+share/python-wheels/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+.ipynb_checkpoints/
+.pdm-python
+__pypackages__/
+
+# =============================================================================
+# Other language toolchains
+# =============================================================================
+target/
+Cargo.lock.orig
+vendor/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+.gradle/
+*.o
+*.obj
+*.exe
+*.dll
+*.dylib
+*.test
+bin/
+obj/
+Debug/
+Release/
+*.user
+*.suo
+
+# =============================================================================
+# Tests, coverage, profiling
+# =============================================================================
+coverage/
+.coverage
+.coverage.*
+htmlcov/
+.nyc_output/
+lcov.info
+junit.xml
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+cypress/screenshots/
+cypress/videos/
+*.lcov
+.benchmarks/
+*.prof
+*.cpuprofile
+*.heapsnapshot
+
+# =============================================================================
+# Infrastructure and databases
+# =============================================================================
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terragrunt-cache/
+.pulumi/
+*.retry
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.rdb
+dump.sql
+pgdata/
+docker-compose.override.yml
+
+# =============================================================================
+# Logs, caches, temporary files
+# =============================================================================
+*.log
+logs/
+tmp/
+temp/
+.tmp/
+.cache/
+*.pid
+*.seed
+*.pid.lock
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# Editors and IDEs
+# =============================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+.fleet/
+.zed/
+nbproject/
+*.sublime-workspace
+*.sublime-project
+
+# =============================================================================
+# Operating system
+# =============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon?
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+.directory
+.fuse_hidden*
+.nfs*
