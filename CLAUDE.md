@@ -148,6 +148,9 @@ centralized in planning, execution follows the plan.
 - Changed requirements mean an **updated plan**, not improvised drift. Re-dispatch
   `planner`.
 - Deviations are recorded in the agent's report and reflected back into the plan.
+- **Plans are tracked, but committed at only two moments** — on approval, and with the
+  work they produced. Mid-implementation edits are working-tree churn on the feature
+  branch, not history. See `plans/README.md`.
 
 ## 6. graphify
 

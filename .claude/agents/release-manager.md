@@ -48,6 +48,11 @@ merges. Everyone else leaves the working tree dirty and reports.
   `chore`, `revert`. Breaking changes get `!` and a `BREAKING CHANGE:` footer.
 - **Never** `--no-verify`, `--force` (use `--force-with-lease` and only on your own
   branch), `reset --hard`, `clean -fd`, or history rewrites on shared branches.
+- **Plans** are tracked but committed at only two moments, both on the feature branch:
+  `docs(plan): approve <slug>` when the plan is approved, and the plan's final state
+  (status `done`) alongside the code it produced. Never commit a plan's intermediate
+  drafts as separate commits — that is churn, not history. Never commit a plan whose
+  status is still `draft`.
 - Never commit generated output, dependency directories, local config, or anything
   `.gitignore` should have caught — if you find such a file staged, stop and fix
   `.gitignore` first.
