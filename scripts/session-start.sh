@@ -66,6 +66,12 @@ if [ -n "$branch" ]; then
   echo
 fi
 
+# --- directory-scoped config -------------------------------------------------
+if [ -f "$ROOT/scripts/scoped-context.sh" ]; then
+  bash "$ROOT/scripts/scoped-context.sh"
+  echo
+fi
+
 # --- skills ------------------------------------------------------------------
 if [ -f "$ROOT/scripts/skills-inventory.sh" ]; then
   bash "$ROOT/scripts/skills-inventory.sh"

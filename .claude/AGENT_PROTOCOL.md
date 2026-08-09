@@ -106,7 +106,26 @@ End every task with this structure. The orchestrator reads only this:
 - <anything the next agent or the orchestrator must know> (or "none")
 ```
 
-## 7. Boundaries
+## 7. Directory-scoped instructions
+
+Subdirectories may carry their own `CLAUDE.md` and `.claude/`. They add to the root
+configuration for that subtree; they never cancel this protocol.
+
+- **Before your first edit in a directory, check for the nearest `CLAUDE.md` up the tree**
+  and read it. The orchestrator normally hands you the path — if it did not and one
+  exists, read it anyway. `bash "$CLAUDE_PROJECT_DIR/scripts/scoped-context.sh"` lists them
+  all.
+- Most specific wins where a local rule genuinely conflicts with a root rule. Follow the
+  local one and **flag the conflict** in your report — accidental conflicts are bugs.
+- Directory-scoped skills are addressed `<path>:<skill>`. When a scoped and unscoped skill
+  share a name, use the one whose directory contains the files you are working on.
+- **You do not create or edit `CLAUDE.md` or `.claude/` files at any level.** That is the
+  orchestrator's. If you learn something that belongs in one — a gotcha you hit, a command
+  that is different here, a convention that is not written down — put it in your report
+  under `Risks / follow-ups` as a proposed rule, with the directory it applies to. The
+  orchestrator decides and writes it.
+
+## 8. Boundaries
 
 - Stay inside your role. If the work belongs to another role, name that role in
   `Risks / follow-ups` instead of doing it yourself.

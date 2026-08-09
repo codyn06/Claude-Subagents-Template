@@ -216,3 +216,76 @@ codebase — for you and for every subagent.
 | `Stop` / `SubagentStop` | `scripts/graphify-sync.sh` | Runs `graphify update .` when stale |
 
 All hooks fail open: a missing `graphify` or a script error never wedges the session.
+
+## 11. Nested `CLAUDE.md` and `.claude/` directories
+
+Any subdirectory of this repo may carry its own `CLAUDE.md` and its own `.claude/`. This
+is how a monorepo gives `apps/web/` different rules from `services/api/` without bloating
+the root file. **You, the orchestrator, own this tree and may create and edit it.**
+
+### How the levels combine
+
+| Level | Scope | Loaded |
+| --- | --- | --- |
+| `~/.claude/` | Every project on this machine | Always |
+| `CLAUDE.md` + `.claude/` (root) | The whole repo | Always, at session start |
+| `<subdir>/CLAUDE.md` | That subtree | On demand, when work touches that subtree |
+| `<subdir>/.claude/` | That subtree | Its agents/skills/settings apply to work there |
+
+Rules of combination:
+
+- **Additive, not replacing.** A nested `CLAUDE.md` layers on top of this file. Everything
+  in sections 2–10 stays in force everywhere unless a nested file explicitly and
+  deliberately narrows it.
+- **Most specific wins on conflict.** For a file at `apps/web/src/x.ts`, rules in
+  `apps/web/CLAUDE.md` beat root rules where the two genuinely conflict. If they conflict
+  by accident, that is a bug — fix the nested file rather than living with the ambiguity.
+- **Directory-scoped skills** are addressed as `<path>:<skill>` (e.g. `apps/web:deploy`).
+  When a scoped and unscoped skill share a name, pick the one whose directory contains the
+  files you are working on.
+- **Nested is loaded lazily.** Do not assume a subtree's rules are already in your context.
+  Check the map (`scripts/scoped-context.sh`, injected at session start), then read the
+  nested file before you work in that subtree.
+
+### Your authority and its limits
+
+You may create, edit, and delete nested `CLAUDE.md` files and nested `.claude/`
+directories directly — this is orchestration, not implementation, so it does not need a
+plan or a subagent.
+
+Do it when:
+
+- A subtree has genuinely different conventions, commands, or constraints (a different
+  language, framework, test runner, or deploy target).
+- A subtree has a rule you keep re-explaining in subagent prompts. Write it down once.
+- A package needs a scoped agent or skill that would be noise at the root.
+
+Do **not** do it when:
+
+- The rule is repo-wide → it belongs in root `CLAUDE.md`.
+- The rule binds every agent → it belongs in `.claude/AGENT_PROTOCOL.md`.
+- You are copying root content down. Duplication drifts and then contradicts.
+- The directory has nothing genuinely local to say. An empty or generic nested file costs
+  context on every read and teaches agents to skim.
+
+### Rules for the files you write
+
+- Start from `templates/CLAUDE.subdir.template.md`.
+- **Keep it under ~60 lines.** Nested files are read often; long ones get skimmed.
+- State only what differs from the root: local commands, local conventions, local gotchas,
+  local ownership.
+- Never restate the graphify, skills, plan, or git rules — they already apply.
+- Never put secrets, credentials, or real hostnames in any `CLAUDE.md`. They are committed.
+- Nested `.claude/settings.local.json` is gitignored at every depth; nested
+  `settings.json`, `agents/`, and `skills/` are committed and reviewable.
+- After adding or changing a nested file, mention it in your response — it changes how
+  every future session behaves in that subtree.
+
+### When you dispatch into a subtree
+
+Add the nested path to the subagent prompt alongside the plan path:
+
+> `Also read apps/web/CLAUDE.md — it governs the subtree you are working in.`
+
+Subagents do not edit these files. If one finds a rule worth recording, it reports the
+proposed rule and **you** write it.

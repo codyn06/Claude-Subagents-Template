@@ -20,18 +20,19 @@ service-account*.json
 .npmrc.local
 
 # =============================================================================
-# Claude Code — local/machine state (keep agents, skills, settings.json tracked)
+# Claude Code — local/machine state at EVERY depth (root and nested .claude/ dirs).
+# Keep agents/, skills/, settings.json, and CLAUDE.md tracked at every level.
 # =============================================================================
-.claude/settings.local.json
-.claude/*.local.json
-.claude/.credentials.json
-.claude/shell-snapshots/
-.claude/statsig/
-.claude/todos/
-.claude/projects/
-.claude/history.jsonl
-.claude/ide/
-.claude/logs/
+**/.claude/settings.local.json
+**/.claude/*.local.json
+**/.claude/.credentials.json
+**/.claude/shell-snapshots/
+**/.claude/statsig/
+**/.claude/todos/
+**/.claude/projects/
+**/.claude/history.jsonl
+**/.claude/ide/
+**/.claude/logs/
 .claude-cache/
 
 # =============================================================================

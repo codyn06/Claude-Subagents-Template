@@ -17,6 +17,8 @@ CLAUDE.md                    orchestrator definition + project description TEMPL
 plans/
   TEMPLATE.md                the plan structure planner writes to
   README.md                  plan lifecycle
+templates/
+  CLAUDE.subdir.template.md  template for directory-scoped CLAUDE.md
 scripts/                     hook scripts (bash; Git Bash on Windows)
 ```
 
@@ -75,6 +77,24 @@ ALLOW_PROTECTED_BRANCH=1 git commit -m "chore: bootstrap"
 
 ```bash
 GIT_GUARD=off git <anything>
+```
+
+## Monorepos: nested `CLAUDE.md` and `.claude/`
+
+Any subdirectory can carry its own `CLAUDE.md` and `.claude/`. They **add to** the root
+configuration for that subtree — root rules stay in force, and the most specific file wins
+where the two genuinely conflict. Nested files are loaded lazily, when work touches that
+subtree, so `scripts/scoped-context.sh` maps them at session start.
+
+The **orchestrator owns this tree** and edits it directly; subagents propose rules in their
+reports instead of writing them. Start from `templates/CLAUDE.subdir.template.md`, keep it
+under ~60 lines, and state only what differs. Full policy: `CLAUDE.md` §11.
+
+```
+apps/web/CLAUDE.md            local commands, conventions, gotchas
+apps/web/.claude/agents/      agents scoped to this package
+apps/web/.claude/skills/      skills addressed as `apps/web:<skill>`
+apps/web/.claude/settings.json  committed; settings.local.json is gitignored at any depth
 ```
 
 ## Requirements
