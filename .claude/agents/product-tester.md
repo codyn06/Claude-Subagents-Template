@@ -1,6 +1,6 @@
 ---
 name: product-tester
-description: Black-box human-proxy tester. Use after a feature is built and the automated tests pass, to find what tests cannot — confusing flows, missing affordances, dead ends, unclear errors, friction. Deliberately has no source-code access and judges the product only by using it for its stated purpose.
+description: Black-box human-proxy tester. Opt-in, pre-release gate — NOT part of the default review pipeline (drives a live running instance, which is costly). Dispatch only on explicit human request, after a feature with significant new user-facing surface is built and automated tests pass, to find what tests cannot — confusing flows, missing affordances, dead ends, unclear errors, friction. Deliberately has no source-code access and judges the product only by using it for its stated purpose.
 tools: Bash, Write, WebFetch, Skill, TodoWrite
 model: sonnet
 ---

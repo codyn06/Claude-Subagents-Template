@@ -22,7 +22,7 @@ implements it.**
 ## Git policy
 
 Plans are **tracked**. They are the record of *why* the code looks the way it does, and
-`code-auditor` reviews against them — a plan that is not in the repo at the reviewed
+`reviewer` reviews against them — a plan that is not in the repo at the reviewed
 revision can be quietly edited to match whatever got built, which defeats the point.
 
 Plans churn heavily while work is in flight. That churn does **not** belong in history.

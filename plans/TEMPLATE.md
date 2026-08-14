@@ -82,8 +82,8 @@ the community boundaries this change crosses. Cite source_location.>
 - [ ] Every step implemented and verified
 - [ ] `<test command>` passes
 - [ ] `<lint command>` and `<typecheck command>` clean
-- [ ] `code-auditor` approved
-- [ ] Review gate cleared (security / accessibility / performance as applicable)
+- [ ] `reviewer` approved
+- [ ] Any on-demand specialist findings resolved (security / accessibility / performance as applicable)
 - [ ] Docs and CHANGELOG updated
 - [ ] `graphify update .` run
 
@@ -91,4 +91,4 @@ the community boundaries this change crosses. Cite source_location.>
 
 1. `<agent>` — Step 1
 2. `<agent>` + `<agent>` — Steps 2, 3 **in parallel**
-3. `code-auditor` — review gate
+3. `reviewer` — review gate

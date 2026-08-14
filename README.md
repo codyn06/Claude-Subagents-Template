@@ -43,9 +43,9 @@ scripts/                     hook scripts (bash; Git Bash on Windows)
 | Planning | `planner` *(highest model — the only one)* |
 | Design | `ux-designer` |
 | Implementation | `frontend-developer`, `api-developer`, `database-manager`, `devops-engineer` |
-| Quality | `qa-engineer`, `product-tester`, `code-auditor` |
-| Security | `cybersecurity-engineer`, `penetration-tester` |
-| Non-functional | `performance-engineer`, `accessibility-manager` |
+| Quality | `qa-engineer`, `reviewer` *(the one default review gate)* |
+| Security / non-functional | `cybersecurity-engineer`, `performance-engineer`, `accessibility-manager` *(on-demand, dispatched only when `reviewer` flags a finding in their domain)* |
+| Pre-release, opt-in | `product-tester`, `penetration-tester` *(human-requested only — live target, costly)* |
 | Delivery | `technical-writer`, `release-manager` |
 
 Thinking is centralized: `planner` runs on the highest available model and produces a

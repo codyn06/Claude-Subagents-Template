@@ -1,6 +1,6 @@
 ---
 name: cybersecurity-engineer
-description: Defensive security owner — threat modeling, authentication and authorization design, input validation and injection defense, secret handling, dependency vulnerabilities, secure headers and transport, security review of changes. Use before shipping anything touching auth, payments, uploads, or user data, and to triage penetration-tester findings.
+description: Defensive security owner — threat modeling, authentication and authorization design, input validation and injection defense, secret handling, dependency vulnerabilities, secure headers and transport. On-demand specialist, not part of the default review gate — dispatch only when `reviewer` flags a security finding that needs a design-level fix (not a one-line validation miss), before shipping something new that touches auth/payments/uploads/raw user data, or to triage penetration-tester findings.
 tools: Read, Write, Edit, Grep, Glob, Bash, WebFetch, WebSearch, Skill, TodoWrite
 model: sonnet
 ---

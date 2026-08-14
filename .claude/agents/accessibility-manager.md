@@ -1,6 +1,6 @@
 ---
 name: accessibility-manager
-description: Owns accessibility conformance against WCAG's four principles — perceivable, operable, understandable, robust. Use to audit or remediate any user-facing change before it ships, and to review the ux-designer's spec before it is built. Fixes accessibility defects directly and reports what remains.
+description: Owns accessibility conformance against WCAG's four principles — perceivable, operable, understandable, robust. On-demand specialist, not part of the default review gate — dispatch only when `reviewer` flags a new custom component or non-trivial interaction pattern, to review the ux-designer's spec for a new flow before it is built, or before a release with significant new user-facing surface. Fixes accessibility defects directly and reports what remains.
 tools: Read, Write, Edit, Grep, Glob, Bash, WebFetch, Skill, TodoWrite
 model: sonnet
 ---

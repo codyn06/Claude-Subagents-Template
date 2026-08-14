@@ -88,6 +88,11 @@ independent judgment, or benefits from a fresh context window.
 
 Dispatch independent steps **in parallel, in a single message**. Sequential steps wait.
 
+When a step needs a browser at all, default to the in-app browser tool. Reach for
+`claude-in-chrome` only when the task specifically requires the user's real, already-logged-in
+Chrome session (an account you cannot re-authenticate in a clean browser) — it is
+materially more expensive and should never be the default choice.
+
 ## 3. The pipeline
 
 ```
@@ -100,20 +105,30 @@ request
             ├─ api-developer        backend                   ← after schema
             ├─ frontend-developer   UI                        ← after design + contract
             └─ qa-engineer          automated tests           ← alongside implementation
-                 └─ REVIEW GATE — run in parallel:
-                      code-auditor            plan conformance, correctness, currency
-                      cybersecurity-engineer  threat model + defensive review
-                      accessibility-manager   WCAG conformance
-                      performance-engineer    budgets and hot paths
-                      penetration-tester      adversarial pass (authorized targets only)
-                      product-tester          black-box human-proxy pass
-                           └─ blockers → back to the owning implementer
-                                └─ technical-writer   docs + changelog
-                                     └─ release-manager   commits, PR, merge, tag
+                 └─ reviewer   single-pass gate: plan conformance, correctness, currency,
+                                security baseline, accessibility baseline, perf red flags
+                      ├─ blockers → back to the owning implementer (default path)
+                      ├─ security finding needs a design fix → cybersecurity-engineer
+                      ├─ a11y finding needs a full pass       → accessibility-manager
+                      ├─ perf finding needs measurement       → performance-engineer
+                      ├─ [opt-in, pre-release, on request] penetration-tester
+                      ├─ [opt-in, pre-release, on request] product-tester
+                      └─ approved
+                           └─ technical-writer   docs + changelog
+                                └─ release-manager   commits, PR, merge, tag
 ```
 
+Only `reviewer` runs by default after implementation — it is the one required review gate.
+The three specialist fixers (`cybersecurity-engineer`, `accessibility-manager`,
+`performance-engineer`) are dispatched **only** when `reviewer` names a specific finding
+that needs their deeper toolkit, not as a standing parallel fan-out. `penetration-tester`
+and `product-tester` drive a live running instance and are **opt-in**: dispatch them only on
+explicit human request, typically before a release that ships or materially changes
+auth/payments/access-control surface or significant new user-facing flows.
+
 Skip stages that genuinely do not apply, and **say in your response which you skipped and
-why**. Never skip the review gate for user-facing or security-relevant changes.
+why**. Never skip `reviewer` itself for user-facing or security-relevant changes — it is the
+one gate that always runs.
 
 ## 4. Roles
 
@@ -127,24 +142,31 @@ why**. Never skip the review gate for user-facing or security-relevant changes.
 | `database-manager` | Schema, migrations, indexes, data integrity | sonnet |
 | `devops-engineer` | Build, CI/CD, environments, config, observability | sonnet |
 | `qa-engineer` | Automated tests; reproduce a bug as a failing test | sonnet |
-| `product-tester` | Black-box usability pass, no code context | sonnet |
-| `code-auditor` | After every implementation step; before every merge | sonnet |
-| `cybersecurity-engineer` | Auth, payments, uploads, user data; triage pentest findings | sonnet |
-| `penetration-tester` | Adversarial pass on an authorized target | sonnet |
-| `performance-engineer` | Something is measurably slow; a budget exists | sonnet |
-| `accessibility-manager` | Any user-facing change, and design review | sonnet |
+| `reviewer` | **After every implementation step; before every merge** — the one default review gate | sonnet |
+| `cybersecurity-engineer` | On-demand only — `reviewer` flags a security finding needing a design-level fix, or new auth/payments/upload/user-data surface | sonnet |
+| `accessibility-manager` | On-demand only — `reviewer` flags a new custom component, or a design review for a new flow | sonnet |
+| `performance-engineer` | On-demand only — confirmed measurably slow, or `reviewer` flags a hot path it couldn't measure | sonnet |
+| `penetration-tester` | **Opt-in, human-requested only** — pre-release, live target, costly | sonnet |
+| `product-tester` | **Opt-in, human-requested only** — pre-release, live target, costly | sonnet |
 | `technical-writer` | Install, config, API, or architecture changed | sonnet |
 | `release-manager` | Work is verified and needs commits, a PR, or a tag | sonnet |
 
 `planner` is the **only** agent on the highest model. That is deliberate: thinking is
 centralized in planning, execution follows the plan.
 
+Do not dispatch `cybersecurity-engineer`, `accessibility-manager`, or `performance-engineer`
+as a standing parallel step — they cost real money and most changes don't need them.
+Dispatch them only when `reviewer`'s report names a specific finding in their domain.
+`penetration-tester` and `product-tester` drive a live instance (and often a real browser)
+and must never be part of the default loop — dispatch them only when the human asks, or you
+are explicitly recommending one because of what you're about to ship.
+
 ## 5. Plans are binding
 
 - Non-trivial work goes through `planner` **before** any implementation.
 - The plan lives at `plans/<slug>.md` (template: `plans/TEMPLATE.md`).
 - Every implementation agent is handed the plan path and implements only its steps.
-- `code-auditor` checks the code **against the plan**, not just against taste.
+- `reviewer` checks the code **against the plan**, not just against taste.
 - Changed requirements mean an **updated plan**, not improvised drift. Re-dispatch
   `planner`.
 - Deviations are recorded in the agent's report and reflected back into the plan.

@@ -1,6 +1,6 @@
 ---
 name: performance-engineer
-description: Optimizes application performance — latency, throughput, memory, bundle size, render cost, query time, startup time. Use when something is measurably slow, when a plan sets a performance budget, or before a release that changes hot paths. Measures first; never optimizes on speculation.
+description: Optimizes application performance — latency, throughput, memory, bundle size, render cost, query time, startup time. On-demand specialist, not part of the default review gate — dispatch only when something is confirmed measurably slow, when `reviewer` flags a plausible hot path it could not itself measure, or when a plan sets a performance budget. Measures first; never optimizes on speculation.
 tools: Read, Write, Edit, Grep, Glob, Bash, Skill, TodoWrite
 model: sonnet
 ---
